@@ -14,7 +14,7 @@ const destinations = [
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   return <header className="header site-header">
-    <Link className="brand" to="/" aria-label="RAW FIT home" onClick={() => setOpen(false)}><img src="/logo.png" alt="RAW FIT" /></Link>
+    <Link className="brand" to="/" aria-label="RAW FIT GYM home" onClick={() => setOpen(false)}><img src="/logo.png" alt="" /><span className="brand-name"><span>RAW</span> <em>FIT</em> <small>GYM</small></span></Link>
     <nav className={open ? 'nav open' : 'nav'} aria-label="Main navigation">
       {destinations.map(({label,to}) => <Link key={to} to={to} onClick={() => setOpen(false)}>{label}</Link>)}
     </nav>
@@ -93,7 +93,33 @@ function PageHero({ kicker, title, accent, copy, image }) {
   </section>;
 }
 
-export function IdentityPage() {
+export function IdentityPage({ feature }) {
+  if (feature) {
+    const bold = feature === 'bold';
+    const story = bold ? {
+      kicker: '01 / BUILT FOR THE BOLD', title: 'FOR THOSE WHO', accent: 'KEEP SHOWING UP.',
+      copy: 'A new breed of training space, made for people who show up, push limits and keep moving.',
+      image: '/photo-1517836357463-d25dfeac3438.avif', label: 'THE WORK SPEAKS FOR ITSELF',
+      heading: 'COURAGE LOOKS LIKE\nONE MORE REP.',
+      body: 'Being bold is not about being the strongest in the room. It is choosing to start, staying consistent, and giving your best even when no one is watching. RAW FIT is built for that mindset.',
+      points: [['01', 'SHOW UP', 'Make training a commitment to yourself.'], ['02', 'PUSH FORWARD', 'Keep finding room to get stronger.'], ['03', 'OWN YOUR PROGRESS', 'Every small win moves you ahead.']],
+    } : {
+      kicker: '02 / MORE THAN A GYM', title: 'A PLACE TO', accent: 'FIND YOUR PEOPLE.',
+      copy: 'World-class coaching, serious equipment and a community that makes every rep count.',
+      image: '/photo-1541534741688-6078c6bfb5c5.avif', label: 'STRONGER, SIDE BY SIDE',
+      heading: 'TRAINING BUILDS\nMORE THAN STRENGTH.',
+      body: 'A great gym gives you more than a place to train. It gives you expert guidance, the right equipment and people who bring energy to every session. That is the RAW FIT experience: focused on progress, built around community.',
+      points: [['01', 'COACHING THAT GUIDES', 'Get support to train with purpose.'], ['02', 'SPACE THAT INSPIRES', 'Find the tools to make every session count.'], ['03', 'COMMUNITY THAT LIFTS', 'Progress together, one workout at a time.']],
+    };
+    return <main className="route-page">
+      <PageHero kicker={story.kicker} title={story.title} accent={story.accent} copy={story.copy} image={story.image} />
+      <section className="route-content story-content">
+        <div className="story-feature-image"><img src={story.image} alt="RAW FIT members training in a modern gym" /><span>{story.label}</span></div>
+        <div className="story-feature-copy"><p className="route-kicker"><span />THE RAW FIT MINDSET</p><h2>{story.heading.split('\n').map((line, i) => <React.Fragment key={line}>{i > 0 && <br />}{i === 1 ? <em>{line}</em> : line}</React.Fragment>)}</h2><p>{story.body}</p><Link to="/formats" className="route-button">EXPLORE OUR FORMATS <ArrowUpRight size={17} /></Link></div>
+        <div className="story-points">{story.points.map(([number, title, copy]) => <article key={number}><span>{number}</span><h3>{title}</h3><p>{copy}</p></article>)}</div>
+      </section>
+    </main>;
+  }
   const pillars = [
     ['01', 'TRAIN WITH INTENT', 'A gym culture built on commitment, progress and showing up for the work.'],
     ['02', 'FEEL THE DIFFERENCE', 'Thoughtful spaces and serious equipment make every training day count.'],

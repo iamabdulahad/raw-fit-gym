@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Link, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,8 +12,8 @@ import './style.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const rows = [
-  { n: '01', title: 'Built for the bold', desc: 'A new breed of training space. Made for people who show up, push limits and keep moving.' },
-  { n: '02', title: 'More than a gym', desc: 'World-class coaching, serious equipment and a community that makes every rep count.' },
+  { n: '01', title: 'Built for the bold', desc: 'A new breed of training space. Made for people who show up, push limits and keep moving.', to: '/built-for-the-bold' },
+  { n: '02', title: 'More than a gym', desc: 'World-class coaching, serious equipment and a community that makes every rep count.', to: '/more-than-a-gym' },
 ];
 
 function HomePage() {
@@ -109,9 +109,9 @@ function HomePage() {
       <div className="ticker" aria-label="Strength in motion"><div className="ticker-track">{Array.from({length: 4}, (_, i) => <span key={i}>STRENGTH IN MOTION <b>✳</b> BUILT TO BREAK THROUGH <b>✳</b> RAW BY NATURE <b>✳</b></span>)}</div></div>
       <div className="intro-top"><p className="section-kicker">01 / OUR IDENTITY</p><p className="intro-aside">NO SHORTCUTS.<br />NO SOFT EDGES.<br /><span>JUST RAW POTENTIAL.</span></p></div>
       <div className="rows">
-        {rows.map((row, i) => <article className={`feature-row ${activeRow === i ? 'active' : ''}`} key={row.n} onMouseEnter={() => setActiveRow(i)} onMouseLeave={() => setActiveRow(-1)}>
+        {rows.map((row, i) => <Link to={row.to} className={`feature-row ${activeRow === i ? 'active' : ''}`} key={row.n} onMouseEnter={() => setActiveRow(i)} onMouseLeave={() => setActiveRow(-1)}>
           <span className="row-number">{row.n}</span><h2>{row.title}<span className="row-arrow"><ArrowUpRight size={28} /></span></h2><p>{row.desc}</p>
-        </article>)}
+        </Link>)}
       </div>
     </section>
 
@@ -257,6 +257,8 @@ function App() {
       <Route path="/formats" element={<FormatsPage />} />
       <Route path="/founders" element={<FoundersPage />} />
       <Route path="/faq" element={<FAQPage />} />
+      <Route path="/built-for-the-bold" element={<IdentityPage feature="bold" />} />
+      <Route path="/more-than-a-gym" element={<IdentityPage feature="more" />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
     <SiteFooter />
